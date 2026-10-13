@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="Browse thoughtfully listed secondhand furniture, home goods, and more for sale in your neighborhood.">
+  <title>Good Finds — Pre-loved things, ready for a new home</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202a24;
+      --muted: #747b72;
+      --paper: #f7f6f2;
+      --card: #fff;
+      --green: #315c43;
+      --green-dark: #244a35;
+      --line: #e6e5de;
+      --serif: Georgia, "Times New Roman", serif;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .site-header {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 0 7.2%;
+      background: var(--paper);
+      border-bottom: 1px solid rgba(32, 42, 36, .08);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      text-decoration: none;
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -.04em;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50% 50% 50% 8px;
+      background: var(--green);
+      color: white;
+      font-family: sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+    }
+
+    .header-note {
+      color: var(--muted);
+      font-size: .83rem;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 76px 7.2% 78px;
+      background: #e8ede5;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      right: 5%;
+      top: -245px;
+      border: 1px solid rgba(49, 92, 67, .17);
+      border-radius: 50%;
+      box-shadow: 0 0 0 38px rgba(49, 92, 67, .035), 0 0 0 78px rgba(49, 92, 67, .025);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 730px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 18px;
+      color: var(--green);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 23px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      max-width: 690px;
+      margin-bottom: 18px;
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 400;
+      letter-spacing: -.055em;
+      line-height: .99;
+    }
+
+    h1 em {
+      color: var(--green);
+      font-weight: 400;
+    }
+
+    .hero-copy {
+      max-width: 470px;
+      margin-bottom: 0;
+      color: #5e685f;
+      font-size: 1.04rem;
+      line-height: 1.7;
+    }
+
+    main {
+      width: min(1320px, 100%);
+      margin: 0 auto;
+      padding: 55px 7.2% 80px;
+    }
+
+    .inventory-top {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 27px;
+    }
+
+    .inventory-heading h2 {
+      margin: 0 0 7px;
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3vw, 2.45rem);
+      font-weight: 400;
+      letter-spacing: -.035em;
+    }
+
+    .inventory-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .91rem;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: min(310px, 100%);
+      flex: 0 1 310px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      width: 17px;
+      height: 17px;
+      transform: translateY(-50%);
+      color: #737a71;
+      pointer-events: none;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      min-height: 47px;
+      padding: 0 15px 0 43px;
+      border: 1px solid #dedfd7;
+      border-radius: 7px;
+      outline: none;
+      background: rgba(255, 255, 255, .72);
+      color: var(--ink);
+      font: inherit;
+      font-size: .88rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(49, 92, 67, .11);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 26px;
+    }
+
+    .filter-button {
+      min-height: 37px;
+      padding: 0 16px;
+      border: 1px solid #dedfd7;
+      border-radius: 999px;
+      background: transparent;
+      color: #505950;
+      cursor: pointer;
+      font: inherit;
+      font-size: .81rem;
+      transition: background .18s, color .18s, border-color .18s;
+    }
+
+    .filter-button:hover { border-color: var(--green); }
+
+    .filter-button[aria-pressed="true"] {
+      border-color: var(--green);
+      background: var(--green);
+      color: white;
+    }
+
+    .results-line {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 0 17px;
+      color: var(--muted);
+      font-size: .79rem;
+    }
+
+    .listing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 23px;
+    }
+
+    .listing-card {
+      overflow: hidden;
+      border: 1px solid #e9e8e1;
+      border-radius: 9px;
+      background: var(--card);
+      box-shadow: 0 3px 12px rgba(37, 48, 39, .035);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .listing-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(37, 48, 39, .09);
+    }
+
+    .listing-image {
+      position: relative;
+      height: 225px;
+      overflow: hidden;
+      background: #e7e7df;
+    }
+
+    .listing-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .35s;
+    }
+
+    .listing-card:hover .listing-image img { transform: scale(1.035); }
+
+    .condition {
+      position: absolute;
+      top: 13px;
+      left: 13px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255, 255, 255, .72);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, .92);
+      color: #3e5142;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .025em;
+    }
+
+    .listing-details { padding: 17px 18px 18px; }
+
+    .listing-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: .73rem;
+    }
+
+    .listing-card h3 {
+      margin: 0 0 7px;
+      font-family: var(--serif);
+      font-size: 1.28rem;
+      font-weight: 400;
+      letter-spacing: -.02em;
+    }
+
+    .listing-description {
+      min-height: 42px;
+      margin-bottom: 16px;
+      color: #70776f;
+      font-size: .81rem;
+      line-height: 1.55;
+    }
+
+    .listing-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 13px;
+      border-top: 1px solid #efeee9;
+    }
+
+    .price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -.025em;
+    }
+
+    .contact-link {
+      padding: 8px 12px;
+      border-radius: 5px;
+      background: #edf2ec;
+      color: var(--green-dark);
+      font-size: .76rem;
+      font-weight: 650;
+      text-decoration: none;
+      transition: background .18s;
+    }
+
+    .contact-link:hover { background: #dce8db; }
+
+    .empty-state {
+      display: none;
+      padding: 65px 20px;
+      border: 1px dashed #d8d9d1;
+      border-radius: 9px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty-state strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 24px 7.2%;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    footer .brand { font-size: 1.05rem; }
+    footer .brand-mark { width: 24px; height: 24px; font-size: 13px; }
+
+    @media (max-width: 900px) {
+      .listing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .listing-image { height: 210px; }
+    }
+
+    @media (max-width: 620px) {
+      .site-header { min-height: 66px; padding: 0 6%; }
+      .header-note { display: none; }
+      .hero { padding: 62px 6% 63px; }
+      .hero::after { right: -270px; }
+      main { padding: 42px 6% 60px; }
+      .inventory-top { align-items: stretch; flex-direction: column; gap: 20px; }
+      .search-wrap { width: 100%; flex-basis: auto; }
+      .listing-grid { grid-template-columns: 1fr; gap: 16px; }
+      .listing-image { height: 245px; }
+      .listing-description { min-height: 0; }
+      footer { padding: 20px 6%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Good Finds home">
+      <span class="brand-mark" aria-hidden="true">g</span>
+      Good Finds
+    </a>
+    <span class="header-note">A little more life for lovely things.</span>
+  </header>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-content">
+      <p class="eyebrow">The neighborhood marketplace</p>
+      <h1 id="hero-title">Pre-loved things,<br>ready for a <em>new home.</em></h1>
+      <p class="hero-copy">Find well-loved pieces with plenty of life left in them. Browse local finds, see the details, and reach out to make one yours.</p>
+    </div>
+  </section>
+
+  <main>
+    <section aria-labelledby="inventory-title">
+      <div class="inventory-top">
+        <div class="inventory-heading">
+          <h2 id="inventory-title">Good things, for sale</h2>
+          <p>Thoughtful finds, looking for their next chapter.</p>
+        </div>
+        <label class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.2 4.2"></path></svg>
+          <input id="search" type="search" placeholder="Search the collection" aria-label="Search items">
+        </label>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter items by category">
+        <button class="filter-button" type="button" data-category="all" aria-pressed="true">Everything</button>
+        <button class="filter-button" type="button" data-category="Furniture" aria-pressed="false">Furniture</button>
+        <button class="filter-button" type="button" data-category="Home" aria-pressed="false">Home</button>
+        <button class="filter-button" type="button" data-category="Electronics" aria-pressed="false">Electronics</button>
+        <button class="filter-button" type="button" data-category="Outdoors" aria-pressed="false">Outdoors</button>
+      </div>
+
+      <p class="results-line"><span id="result-count" aria-live="polite"></span><span>Local pickup · Loved before, loved again</span></p>
+      <div class="listing-grid" id="listing-grid">
+        <article class="listing-card" data-category="Furniture" data-search="mid-century oak sideboard credenza storage furniture">
+          <div class="listing-image">
+            <img src="https://images.unsplash.com/photo-1499933374294-4584851497cc?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Warm wood sideboard in a bright, plant-filled room" loading="lazy">
+            <span class="condition">Very good</span>
+          </div>
+          <div class="listing-details">
+            <div class="listing-meta"><span>Furniture</span><span>Oak · 1960s</span></div>
+            <h3>Mid-century oak sideboard</h3>
+            <p class="listing-description">Beautiful grain, generous storage, and a few gentle signs of age. Ready to be the heart of your dining room.</p>
+            <div class="listing-footer"><span class="price">$420</span><a class="contact-link" href="mailto:hello@goodfinds.example?subject=Mid-century%20oak%20sideboard">I'm interested</a></div>
+          </div>
+        </article>
+
+        <article class="listing-card" data-category="Furniture" data-search="bentwood dining chairs chairs furniture set">
+          <div class="listing-image">
+            <img src="https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Sculptural wooden chair with a woven seat" loading="lazy">
+            <span class="condition">Good</span>
+          </div>
+          <div class="listing-details">
+            <div class="listing-meta"><span>Furniture</span><span>Set of 2</span></div>
+            <h3>Bentwood dining chairs</h3>
+            <p class="listing-description">A classic pair with sturdy frames and lovely curved backs. One small scuff, otherwise in great shape.</p>
+            <div class="listing-footer"><span class="price">$85</span><a class="contact-link" href="mailto:hello@goodfinds.example?subject=Bentwood%20dining%20chairs">I'm interested</a></div>
+          </div>
+        </article>
+
+        <article class="listing-card" data-category="Home" data-search="ceramic table lamp lighting home decor">
+          <div class="listing-image">
+            <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Softly glowing table lamp on a bedside table" loading="lazy">
+            <span class="condition">Like new</span>
+          </div>
+          <div class="listing-details">
+            <div class="listing-meta"><span>Home</span><span>Handmade ceramic</span></div>
+            <h3>Stoneware bedside lamp</h3>
+            <p class="listing-description">Textured sandy glaze and a warm linen shade. Includes a fresh bulb and a 6-foot cord.</p>
+            <div class="listing-footer"><span class="price">$48</span><a class="contact-link" href="mailto:hello@goodfinds.example?subject=Stoneware%20bedside%20lamp">I'm interested</a></div>
+          </div>
+        </article>
+
+        <article class="listing-card" data-category="Outdoors" data-search="commuter bicycle bike outdoors city">
+          <div class="listing-image">
+            <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Vintage-style bicycle parked outdoors" loading="lazy">
+            <span class="condition">Good</span>
+          </div>
+          <div class="listing-details">
+            <div class="listing-meta"><span>Outdoors</span><span>Medium frame</span></div>
+            <h3>City commuter bicycle</h3>
+            <p class="listing-description">A comfortable everyday ride with a rear rack, fenders, and recently tuned brakes. Just hop on and go.</p>
+            <div class="listing-footer"><span class="price">$160</span><a class="contact-link" href="mailto:hello@goodfinds.example?subject=City%20commuter%20bicycle">I'm interested</a></div>
+          </div>
+        </article>
+
+        <article class="listing-card" data-category="Electronics" data-search="film camera analog photography electronics">
+          <div class="listing-image">
+            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Classic camera with a lens ready for a new photographer" loading="lazy">
+            <span class="condition">Very good</span>
+          </div>
+          <div class="listing-details">
+            <div class="listing-meta"><span>Electronics</span><span>35mm · Tested</span></div>
+            <h3>Olympus film camera</h3>
+            <p class="listing-description">A simple, dependable film camera with a sharp lens. Meter and shutter tested; includes a carrying strap.</p>
+            <div class="listing-footer"><span class="price">$115</span><a class="contact-link" href="mailto:hello@goodfinds.example?subject=Olympus%20film%20camera">I'm interested</a></div>
+          </div>
+        </article>
+
+        <article class="listing-card" data-category="Home" data-search="woven basket storage home handmade seagrass">
+          <div class="listing-image">
+            <img src="https://images.unsplash.com/photo-1593085260707-5377ba37f868?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Handwoven natural-fiber basket for home storage" loading="lazy">
+            <span class="condition">Excellent</span>
+          </div>
+          <div class="listing-details">
+            <div class="listing-meta"><span>Home</span><span>Handwoven</span></div>
+            <h3>Market basket with handles</h3>
+            <p class="listing-description">A sturdy, roomy basket that works just as well for market days as it does for blankets and toys.</p>
+            <div class="listing-footer"><span class="price">$24</span><a class="contact-link" href="mailto:hello@goodfinds.example?subject=Market%20basket">I'm interested</a></div>
+          </div>
+        </article>
+      </div>
+      <div class="empty-state" id="empty-state">
+        <strong>No finds this time</strong>
+        Try another search or choose a different category.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="#" aria-label="Good Finds home"><span class="brand-mark" aria-hidden="true">g</span>Good Finds</a>
+    <span>Good things deserve another life.</span>
+  </footer>
+
+  <script>
+    const searchInput = document.querySelector("#search");
+    const filterButtons = [...document.querySelectorAll(".filter-button")];
+    const cards = [...document.querySelectorAll(".listing-card")];
+    const resultCount = document.querySelector("#result-count");
+    const emptyState = document.querySelector("#empty-state");
+    let activeCategory = "all";
+
+    function updateListings() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const card of cards) {
+        const matchesCategory = activeCategory === "all" || card.dataset.category === activeCategory;
+        const matchesSearch = `${card.dataset.search} ${card.textContent}`.toLowerCase().includes(query);
+        const isVisible = matchesCategory && matchesSearch;
+        card.hidden = !isVisible;
+        if (isVisible) visibleCount += 1;
+      }
+
+      resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? "item" : "items"} available`;
+      emptyState.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeCategory = button.dataset.category;
+        filterButtons.forEach((filter) => {
+          filter.setAttribute("aria-pressed", String(filter === button));
+        });
+        updateListings();
+      });
+    });
+
+    searchInput.addEventListener("input", updateListings);
+    updateListings();
+  </script>
+</body>
+</html>
