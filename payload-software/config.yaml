@@ -1,0 +1,22 @@
+gps:
+  type: gpsd
+  host: localhost
+  port: 2947
+  serial_port: /dev/ttyUSB0
+  baudrate: 9600
+
+signal:
+  type: bluetooth  # options: bluetooth, wifi, rtl_sdr, simulated
+  scan_duration: 5
+  interface: hci0
+  frequency_mhz: 915.0
+  rtl_sdr:
+    sample_rate: 2.4e6
+    gain: auto
+    num_samples: 256000
+
+logging:
+  mission_name: rescue-mission-001
+  interval_seconds: 5
+  csv_file: /home/pi/rescue-payload/logs/mission-data.csv
+  json_file: /home/pi/rescue-payload/logs/mission-data.json

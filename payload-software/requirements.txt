@@ -1,0 +1,6 @@
+Flask
+PyYAML
+gpsd-py3
+numpy
+pyserial
+pyrtlsdr

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rescue Payload Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f7f9fc; color: #202124; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 16px; }
+    .button { display: inline-block; padding: 12px 24px; border-radius: 8px; text-decoration: none; color: white; background: #3b82f6; border: none; cursor: pointer; }
+    .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .status-item { background: #f0f4ff; padding: 16px; border-radius: 10px; }
+    pre { background: #f5f7fb; padding: 12px; border-radius: 8px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Drone Payload Dashboard</h1>
+      <p>Use this interface on a laptop or phone to monitor and operate the drone payload.</p>
+      <button class="button" id="startButton">Start Mission</button>
+      <button class="button" id="stopButton" style="background:#ef4444;">Stop Mission</button>
+    </div>
+    <div class="card">
+      <h2>Signal Detection View</h2>
+      <div class="status-grid">
+        <div class="status-item"><strong>Status</strong><div id="detectionStatus">Waiting for signal...</div></div>
+        <div class="status-item"><strong>Signal Strength</strong><div id="signalStrength">-</div></div>
+        <div class="status-item"><strong>Current GPS</strong><div id="gps">-</div></div>
+        <div class="status-item"><strong>Target Estimate</strong><div id="targetEstimate">No signal yet.</div></div>
+        <div class="status-item"><strong>Estimated Distance</strong><div id="distanceEstimate">-</div></div>
+        <div class="status-item"><strong>Confidence</strong><div id="confidenceEstimate">-</div></div>
+      </div>
+      <p style="margin-top: 12px;">Mode: <select id="modeSelect"><option value="both">Both</option><option value="rescue">Weak-signal rescue</option><option value="normal">Normal nearby signal</option></select></p>
+    </div>
+    <div class="card">
+      <h2>Live Status</h2>
+      <div class="status-grid">
+        <div class="status-item"><strong>Timestamp</strong><div id="timestamp">-</div></div>
+        <div class="status-item"><strong>Signal Type</strong><div id="signalType">-</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Logs</h2>
+      <pre id="logOutput">Waiting for status updates...</pre>
+    </div>
+  </div>
+  <script>
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+    const timestamp = document.getElementById('timestamp');
+    const gps = document.getElementById('gps');
+    const signalType = document.getElementById('signalType');
+    const detectionStatus = document.getElementById('detectionStatus');
+    const signalStrength = document.getElementById('signalStrength');
+    const targetEstimate = document.getElementById('targetEstimate');
+    const distanceEstimate = document.getElementById('distanceEstimate');
+    const confidenceEstimate = document.getElementById('confidenceEstimate');
+    const modeSelect = document.getElementById('modeSelect');
+    const logOutput = document.getElementById('logOutput');
+
+    async function fetchStatus() {
+      try {
+        const response = await fetch(`/status?mode=${modeSelect.value}`);
+        const data = await response.json();
+        timestamp.textContent = data.timestamp;
+        gps.textContent = `lat=${data.gps.latitude || '-'} lon=${data.gps.longitude || '-'} fix=${data.gps.fix_type}`;
+        signalType.textContent = data.signal.type;
+        signalStrength.textContent = data.signal.value;
+        detectionStatus.textContent = data.signal.value >= 2 ? 'Signal detected' : 'No signal detected';
+        targetEstimate.textContent = data.target_estimate.label;
+        distanceEstimate.textContent = data.target_estimate.distance_m === null ? 'Unknown' : `${data.target_estimate.distance_m} m`;
+        confidenceEstimate.textContent = `${data.target_estimate.confidence}%`;
+        logOutput.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        logOutput.textContent = 'Error fetching status: ' + err;
+      }
+    }
+
+    startButton.addEventListener('click', async () => {
+      await fetch('/start', { method: 'POST' });
+      logOutput.textContent = 'Mission started.';
+    });
+
+    stopButton.addEventListener('click', async () => {
+      await fetch('/stop', { method: 'POST' });
+      logOutput.textContent = 'Mission stopped.';
+    });
+
+    modeSelect.addEventListener('change', fetchStatus);
+    setInterval(fetchStatus, 5000);
+    fetchStatus();
+  </script>
+</body>
+</html>
