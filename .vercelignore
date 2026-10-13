@@ -1,0 +1,4 @@
+payload-software/
+output/
+.git/
+.venv/
